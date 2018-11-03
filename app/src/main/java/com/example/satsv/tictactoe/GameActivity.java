@@ -1,5 +1,6 @@
 package com.example.satsv.tictactoe;
 
+import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,8 +12,10 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import java.util.Random;
 
-    public class GameActivity extends AppCompatActivity implements View.OnClickListener{
+
+public class GameActivity extends AppCompatActivity implements View.OnClickListener{
 
 
 
@@ -21,10 +24,10 @@ import android.widget.TextView;
         private final int WC = ViewGroup.LayoutParams.WRAP_CONTENT;
         private final int FP = ViewGroup.LayoutParams.WRAP_CONTENT;
         private  Button button;
-        private  Button useAIButton;
         private TableLayout mTableLayout;
         private TextView textView;
         private Board gameBoard;
+        private Integer difficultys;
 
         public static int counter= 1;
 
@@ -36,7 +39,7 @@ import android.widget.TextView;
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_game);
-            final Integer difficultys = getIntent().getIntExtra("difficulty",3);
+            difficultys = getIntent().getIntExtra("difficulty",3);
 
 
             initGameBoard();
@@ -44,7 +47,6 @@ import android.widget.TextView;
             gameBoard=new Board();
             textView= (TextView) findViewById(R.id.textView);
             button= (Button) findViewById(R.id.button);
-            useAIButton = (Button) findViewById(R.id.button2);
 
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -53,49 +55,43 @@ import android.widget.TextView;
                 }
             });
 
-            useAIButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    CPUCtrl=true;
-                    if(difficultys==3){
-                        int position= new AI().miniMax(gameBoard.copy()).position;
-                        Log.d("Main","Counter:"+counter);
-                        counter=0;
-                        Log.d("Main","AI will place at:"+position);
-                        if (position!=0){
-                            (mTableLayout.findViewWithTag(position)).callOnClick();
-                        }
-                    }
-                    if(difficultys==1){
-                        int position= new AI().easy(gameBoard.copy()).position;
-                        Log.d("Main","Counter:"+counter);
-                        counter=0;
-                        Log.d("Main","AI will place at:"+position);
-                        if (position!=0){
-                            (mTableLayout.findViewWithTag(position)).callOnClick();
-                        }
-                    }
-                    if(difficultys==2){
-                        int position= new AI().medium(gameBoard.copy()).position;
-                        Log.d("Main","Counter:"+counter);
-                        counter=0;
-                        Log.d("Main","AI will place at:"+position);
-                        if (position!=0){
-                            (mTableLayout.findViewWithTag(position)).callOnClick();
-                        }
-                    }
-//                    int position= new AI().miniMax(gameBoard.copy()).position;
-//                    Log.d("Main","Counter:"+counter);
-//                    counter=0;
-//                    Log.d("Main","AI will place at:"+position);
-//                    if (position!=0){
-//                        (mTableLayout.findViewWithTag(position)).callOnClick();
-//                    }
 
-                    CPUCtrl=false;
-                }
-            });
         }
+
+    public void callAI()
+    {
+        CPUCtrl=true;
+        if(difficultys==3){
+            int position= new AI().miniMax(gameBoard.copy()).position;
+            Log.d("Main","Counter:"+counter);
+            counter=0;
+            Log.d("Main","AI will place at:"+position);
+            if (position!=0){
+                (mTableLayout.findViewWithTag(position)).callOnClick();
+            }
+        }
+        if(difficultys==1){
+            int position= new AI().easy(gameBoard.copy()).position;
+            Log.d("Main","Counter:"+counter);
+            counter=0;
+            Log.d("Main","AI will place at:"+position);
+            if (position!=0){
+                (mTableLayout.findViewWithTag(position)).callOnClick();
+            }
+        }
+        if(difficultys==2){
+            int position= new AI().medium(gameBoard.copy()).position;
+            Log.d("Main","Counter:"+counter);
+            counter=0;
+            Log.d("Main","AI will place at:"+position);
+            if (position!=0){
+                (mTableLayout.findViewWithTag(position)).callOnClick();
+            }
+        }
+
+
+        CPUCtrl=false;
+    }
 
         private void initGameBoard(){
 
@@ -115,8 +111,11 @@ import android.widget.TextView;
                     //button.setText(row+","+col+"\nTag:"+button.getTag());
 
                     button.setOnClickListener(this);
-                    button.setWidth(200);
-                    button.setHeight(200);
+
+                    final float scale = getApplicationContext().getResources().getDisplayMetrics().density;
+                    int pixels = (int) (100 * scale + 0.5f);
+                    button.setWidth(pixels);
+                    button.setHeight(pixels);
                     button.setTextSize(40);
 
                     tableRow.addView(button);
@@ -155,7 +154,9 @@ import android.widget.TextView;
                     updateUI();
 
                     if (!CPUCtrl) {
-                        useAIButton.callOnClick();
+
+                                callAI();
+
                     }
                 }
 

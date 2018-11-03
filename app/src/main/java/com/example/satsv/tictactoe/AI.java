@@ -143,44 +143,7 @@ public class AI {
                 return easy(game);
             }
 
-//            int thisScore;
-//            int bestScore;
-//            int bestMove=0;
-//
-//            Board gameCopy;
-//
-//            if (game.getCurrentPlayer()==1){
-//                bestScore=-1000;
-//            }else {
-//                bestScore=1000;
-//            }
-//
-//            List<Integer> moves=game.getAvailableSlots();
-//            for (int i=0;i<moves.size();i++){
-//                Random random = new Random();
-//                int index = random.nextInt(moves.size());
-//                gameCopy=game.copy();
-//                gameCopy.placePiece(index);
-//
-//                thisScore=miniMax(gameCopy).score;
-//
-//                if (game.getCurrentPlayer()==CONTROLOR_PLAYER){ //For player
-//
-//                    if (thisScore > bestScore){
-//                        bestScore=thisScore;//Max
-//                        bestMove=moves.get(i);
-//                    }
-//
-//                }else {  // For CPU AI
-//                    if (thisScore < bestScore){
-//                        bestScore=thisScore;//Min
-//                        bestMove=moves.get(i);
-//                    }
-//                }
-//
-//            }
-//            //Log.d("miniMax","Return Ok! bestScore:"+bestScore+ "bestMove:"+bestMove);
-//            return new AImove(bestScore,bestMove);
+
         }
     }
 
